@@ -1,0 +1,75 @@
+
+<div class="container-fluid">
+        <div class="row">
+            <div class="col bg-dark text-white">
+                <a class="navbar-brand">Sports Store</a>
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-3 p-2">
+                <button class="btn btn-block bnt-outline-primary" (click)="changeCategory()">
+                    Todos 
+                </button>
+                <button *ngFor="let cat of categories"
+                    class="btn bnt-block btn-outline-primary"
+                    [class.active]="cat == selectedCategory" (click)="changeCategory(cat)">
+                    {{cat}}
+                </button>
+            </div>
+     
+            <div class="col-9 p-2">
+                <div style="text-align: right;">
+                    <input type="text" placeholder="Busca..." [(ngModel)]="palavraChave">
+                </div>
+     
+                <div *ngFor="let produtoAchado of produtos" >
+                    <ng-container *ngIf="palavraChave == produtoAchado.name">
+                        <div class="card m-1 p-1 bg-light">
+                            <h4>
+                                <img width="100px" height="100px" [src]="produtoAchado.linkI">
+                                {{produtoAchado.name}}
+                                <span class="badge badge-pill badge-primary float-right">
+                                    {{ produtoAchado.price | currency:"USD":"symbol":"2.2-2" }}
+                            </span>
+                            </h4>
+                            <div class="card-text bg-white p-1">{{produtoAchado.description}}</div>
+                        </div>
+                    </ng-container>
+                </div>
+     
+                <div *ngIf="palavraChave == '' ">
+                    <div *ngFor="let product of products" class="card m-1 p-1 bg-light">
+                            <h4>
+                                <img width="100px" height="100px" [src]="product.linkI">
+                                {{product.name}}
+                                <span class="badge badge-pill badge-primary float-right">
+                                    {{ product.price | currency:"USD":"symbol":"2.2-2" }}                                </span>
+                                </h4>
+                                <div class="card-text bg-white p-1">{{product.description}}</div>
+                    </div>
+                </div>
+                
+     
+                <div class="form-inline float-left mr-1">
+                    <select class="form-control" [value]="productsPerPag"
+                        (change)="changePagSize($event.target.value)">
+     
+                        <option value="3">3 por Pag</option>
+                        <option value="4">4 por Pag</option>
+                        <option value="6">6 por pag</option>
+                        <option value="8">8 por Pag</option>
+                    </select>
+                </div>
+     
+                <div class="btn-group float-right">
+                    <button *ngFor="let pag of pagNumbers" (click)="changePag(pag)"
+                        class="btn btn-outline-primary" [class.active]=" pag == selectedPag">
+                        {{pag}}
+                    </button>
+                </div>
+     
+            </div>
+        </div>
+    </div>
+    
